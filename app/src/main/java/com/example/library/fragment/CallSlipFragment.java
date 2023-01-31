@@ -56,7 +56,7 @@ public class CallSlipFragment extends Fragment {
     TextView etDate;
     CheckBox chkReturned;
     Button btnSaveCs, btnCancelCs;
-    int maThanhVien;
+    String maThanhVien;
     String maSach;
     int positionMember, positionBook;
     //spinner
@@ -175,7 +175,7 @@ public class CallSlipFragment extends Fragment {
         if (type != 0) {
             edMaPM.setText(String.valueOf(callSlip.maPH));
             for (int i = 0; i < listMember.size(); i++)
-                if (callSlip.maTV == (listMember.get(i).maTV)) {
+                if (callSlip.maTV.equals((listMember.get(i).maTV))) {
                     positionMember = i;
                 }
             spIdMem.setSelection(positionMember);

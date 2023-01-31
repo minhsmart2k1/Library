@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.example.library.ConnectionHelper;
 import com.example.library.database.Sqldatabase;
@@ -24,21 +25,102 @@ public class TypeOfBookDAO {
         db=sqldatabase.getWritableDatabase();
     }
     public long insert(TypeOfBook TypeOfBook){
+        /*
         ContentValues contentValues=new ContentValues();
         contentValues.put("tenLoai", TypeOfBook.tenLoai);
         contentValues.put("nCC", TypeOfBook.nCC);
         return db.insert("TypeOfBook",null,contentValues);
 
+         */
+        Connection connect;
+        String ConnectionResult = "";
+        boolean check = false;
+
+        try {
+            ConnectionHelper connectionHelper = new ConnectionHelper();
+            connect = connectionHelper.connectionclass();
+            if(connect != null) {
+                String sqlInsert = "INSERT INTO NhaPhatHanh VALUES (N'" + TypeOfBook.tenLoai + "')";
+                Statement st = connect.createStatement();
+                st.executeUpdate(sqlInsert);
+                check = true;
+            }
+            else
+            {
+                ConnectionResult = "Check Connection";
+            }
+        }
+        catch (Exception ex){
+            Log.e("Error", ex.getMessage());
+        }
+        if(check)
+            return 1;
+        return 0;
     }
     public int update(TypeOfBook TypeOfBook){
+        /*
         ContentValues contentValues=new ContentValues();
         contentValues.put("tenLoai", TypeOfBook.tenLoai);
         contentValues.put("nCC", TypeOfBook.nCC);
         return db.update("TypeOfBook",contentValues,"maLoai=?",new String[]{String.valueOf(TypeOfBook.maLoai)});
+
+         */
+
+        Connection connect;
+        String ConnectionResult = "";
+        boolean check = false;
+        try {
+            ConnectionHelper connectionHelper = new ConnectionHelper();
+            connect = connectionHelper.connectionclass();
+            if(connect != null) {
+                String sqlInsert = "UPDATE NhaPhatHanh\n" +
+                        "SET TenNPH = N'" + TypeOfBook.tenLoai + "'\n" +
+                        "WHERE MaNPH = " + Integer.parseInt(TypeOfBook.maLoai) + ";";
+                Statement st = connect.createStatement();
+                st.executeUpdate(sqlInsert);
+                check = true;
+            }
+            else
+            {
+                ConnectionResult = "Check Connection";
+            }
+        }
+        catch (Exception ex){
+            Log.e("Error", ex.getMessage());
+        }
+        if(check)
+            return 1;
+        return 0;
     }
     public int delete(String id){
+        /*
         return
                 db.delete("TypeOfBook","maLoai=?",new String[]{id});
+
+         */
+
+        Connection connect;
+        String ConnectionResult = "";
+
+        try {
+            ConnectionHelper connectionHelper = new ConnectionHelper();
+            connect = connectionHelper.connectionclass();
+            if(connect != null) {
+                String sqlDelete = "DELETE FROM NhaPhatHanh\n" +
+                        "WHERE MaNPH = '" + id + "';";
+                Statement st = connect.createStatement();
+                st.executeUpdate(sqlDelete);
+                return 1;
+            }
+            else
+            {
+                ConnectionResult = "Check Connection";
+            }
+        }
+        catch (Exception ex){
+            Log.e("Error", ex.getMessage());
+        }
+        return 0;
     }
     public List<TypeOfBook> getAll(){
         String sql="Select * from TypeOfBook";
@@ -71,7 +153,7 @@ public class TypeOfBookDAO {
             ConnectionHelper connectionHelper = new ConnectionHelper();
             connect = connectionHelper.connectionclass();
             if(connect != null){
-                String query = "Select * from Sach";
+                String query = "Select * from NhaPhatHanh";
                 Statement st = connect.createStatement();
                 ResultSet rs = st.executeQuery(query);
 
@@ -90,7 +172,7 @@ public class TypeOfBookDAO {
             }
         }
         catch (Exception ex){
-
+            Log.e("Error", ex.getMessage());
         }
         return list;
     }

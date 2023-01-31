@@ -127,7 +127,7 @@ public class MemberFragment extends Fragment {
                         }
                     } else {
                         // update
-                        member.maTV = Integer.parseInt(tvIdM.getText().toString());
+                        member.maTV = (tvIdM.getText().toString());
                         if (dao.update(member) > 0) {
                             Toast.makeText(context, "Edit Sucessfully!", Toast.LENGTH_LONG).show();
                         } else {

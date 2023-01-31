@@ -139,7 +139,7 @@ public class BookFragment extends Fragment {
         if (type != 0) {
             edMaSach.setText(String.valueOf(book.maSach));
             for (int i = 0; i < lists.size(); i++) {
-                if (book.maLoai == (lists.get(i).maLoai)) {
+                if (book.maLoai.equals(lists.get(i).maLoai)) {
                     positionLS = i;
                 }
 

@@ -59,7 +59,7 @@ public class CallSlipDAO {
         while (cursor.moveToNext()){
             CallSlip callSlip =new CallSlip();
             callSlip.maPH=Integer.parseInt(cursor.getString(cursor.getColumnIndex("maPH")));
-            callSlip.maTV = Integer.parseInt(cursor.getString(cursor.getColumnIndex("maTV")));
+            callSlip.maTV = cursor.getString(cursor.getColumnIndex("maTV"));
             callSlip.maSach = (cursor.getString(cursor.getColumnIndex("maSach")));
             callSlip.ngay = cursor.getString(cursor.getColumnIndex("ngay"));
             callSlip.tienThue=Integer.parseInt(cursor.getString(cursor.getColumnIndex("tienThue")));

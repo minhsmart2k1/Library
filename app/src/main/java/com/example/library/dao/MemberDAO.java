@@ -52,7 +52,7 @@ public class MemberDAO {
         Cursor cursor=db.rawQuery(sql,selectionArgs);
         while (cursor.moveToNext()){
             Member member =new Member();
-            member.maTV=Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow("maTV")));
+            member.maTV=cursor.getString(cursor.getColumnIndexOrThrow("maTV"));
             member.hoTen=cursor.getString(cursor.getColumnIndexOrThrow("hoTen"));
             member.namSinh=cursor.getString(cursor.getColumnIndexOrThrow("namSinh"));
             list.add(member);
