@@ -35,7 +35,7 @@ public class CallSlipAdapter extends ArrayAdapter<CallSlip> {
     private Context context;
     CallSlipFragment fragment;
     private ArrayList<CallSlip>lists;
-    TextView tvMaPM, tvTenTv, tvTenSach, tvTienThue, tvNgay, tvTraSach;
+    TextView tvMaPM, tvTenTv, tvTenSach, tvTienThue, tvNgay, tvNgayTra, tvTraSach;
     ImageView imgdel;
     BookDAO bookDAO;
     MemberDAO memberDAO;
@@ -111,11 +111,14 @@ public class CallSlipAdapter extends ArrayAdapter<CallSlip> {
             tvTenTv=v.findViewById(R.id.tvTenTV1);
             tvTienThue=v.findViewById(R.id.tvTienThue);
             tvNgay=v.findViewById(R.id.tvNgayPM);
+            tvNgayTra = v.findViewById(R.id.tvNgayTra);
+
             tvMaPM.setText(""+ callSlip.maPH);
             tvTenSach.setText(""+ tenSach);
             tvTenTv.setText(""+ hoTen);
             tvTienThue.setText(""+ callSlip.tienThue);
             tvNgay.setText(""+ callSlip.ngay);
+            tvNgayTra.setText(""+ callSlip.ngayTra);
             tvTraSach=v.findViewById(R.id.tvTraSach);
             if (item.traSach==1){
                 tvTraSach.setTextColor(Color.WHITE);

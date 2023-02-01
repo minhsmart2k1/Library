@@ -24,11 +24,11 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
                 android:fontFamily="sans-serif-thin"
-                android:padding="8dp"
+                android:padding="4dp"
                 android:text="Mã Phiếu"
                 android:textColor="@color/GreenFirst"
                 android:textColorHint="@color/Green"
-                android:textSize="20sp"
+                android:textSize="15sp"
                 android:textStyle="bold" />
             <TextView
 
@@ -39,8 +39,8 @@
                 android:layout_weight="0.8"
                 android:fontFamily="sans-serif-thin"
                 android:textColor="@color/GreenFirst"
-                android:textSize="20sp"
-                android:padding="8dp"
+                android:textSize="15sp"
+                android:padding="4dp"
                 android:textColorHint="@color/Green"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -53,10 +53,10 @@
                 android:layout_height="wrap_content"
                 android:text="Tên TV:"
                 android:layout_weight="0.5"
-                android:padding="8dp"
+                android:padding="4dp"
                 android:fontFamily="sans-serif-thin"
                 android:textColor="@color/GreenFirst"
-                android:textSize="20sp"
+                android:textSize="15sp"
                 android:textColorHint="@color/Green"
                 android:textStyle="bold" />
             <TextView
@@ -65,10 +65,10 @@
                 android:layout_height="wrap_content"
                 android:text="Tên Thành Viên"
                 android:id="@+id/tvTenTV1"
-                android:padding="8dp"
+                android:padding="4dp"
                 android:fontFamily="sans-serif-thin"
                 android:textColor="@color/GreenFirst"
-                android:textSize="20sp"
+                android:textSize="15sp"
                 android:textColorHint="@color/Green"
                 android:textStyle="bold"
                 />
@@ -85,10 +85,10 @@
                 android:layout_height="wrap_content"
                 android:text="Tên Sách:"
                 android:layout_weight="0.5"
-                android:padding="8dp"
+                android:padding="4dp"
                 android:fontFamily="sans-serif-thin"
                 android:textColor="@color/GreenFirst"
-                android:textSize="20sp"
+                android:textSize="15sp"
                 android:textColorHint="@color/Green"
                 android:textStyle="bold"
                 />
@@ -99,10 +99,10 @@
                 android:id="@+id/tvTenSach"
                 android:layout_weight="0.7"
                 android:layout_gravity="center_vertical"
-                android:padding="8dp"
+                android:padding="4dp"
                 android:fontFamily="sans-serif-thin"
                 android:textColor="@color/GreenFirst"
-                android:textSize="20sp"
+                android:textSize="15sp"
                 android:textColorHint="@color/Green"
                 android:textStyle="bold"
                 />
@@ -119,11 +119,11 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0.7"
                 android:fontFamily="sans-serif-thin"
-                android:padding="8dp"
+                android:padding="4dp"
                 android:text="Trả Sách"
                 android:textColor="@color/GreenFirst"
                 android:textColorHint="@color/Green"
-                android:textSize="20sp"
+                android:textSize="15sp"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -137,10 +137,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
-                android:padding="8dp"
+                android:padding="4dp"
                 android:fontFamily="sans-serif-thin"
                 android:textColor="@color/GreenFirst"
-                android:textSize="20sp"
+                android:textSize="15sp"
                 android:textColorHint="@color/Green"
                 android:textStyle="bold"
                 android:text="Tiền Thuê:"/>
@@ -152,10 +152,10 @@
                 android:text="Tiền Thuê"
                 android:id="@+id/tvTienThue"
                 android:layout_weight="0.7"
-                android:padding="8dp"
+                android:padding="4dp"
                 android:fontFamily="sans-serif-thin"
                 android:textColor="@color/GreenFirst"
-                android:textSize="20sp"
+                android:textSize="15sp"
                 android:textColorHint="@color/Green"
                 android:textStyle="bold"
                 />
@@ -170,10 +170,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
-                android:padding="8dp"
+                android:padding="4dp"
                 android:fontFamily="sans-serif-thin"
                 android:textColor="@color/GreenFirst"
-                android:textSize="20sp"
+                android:textSize="15sp"
                 android:textColorHint="@color/Green"
                 android:textStyle="bold"
                 android:text="Ngày thuê:"/>
@@ -183,15 +183,47 @@
                 android:text="Ngày"
                 android:id="@+id/tvNgayPM"
                 android:layout_weight="0.7"
-                android:padding="8dp"
+                android:padding="4dp"
                 android:fontFamily="sans-serif-thin"
                 android:textColor="@color/GreenFirst"
-                android:textSize="20sp"
+                android:textSize="15sp"
                 android:layout_gravity="center_vertical"
                 android:textColorHint="@color/Green"
                 android:textStyle="bold"
                 />
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:padding="4dp"
+                android:fontFamily="sans-serif-thin"
+                android:textColor="@color/GreenFirst"
+                android:textSize="15sp"
+                android:textColorHint="@color/Green"
+                android:textStyle="bold"
+                android:text="Ngày trả:"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Ngày trả"
+                android:id="@+id/tvNgayTra"
+                android:layout_weight="0.7"
+                android:padding="4dp"
+                android:fontFamily="sans-serif-thin"
+                android:textColor="@color/GreenFirst"
+                android:textSize="15sp"
+                android:layout_gravity="center_vertical"
+                android:textColorHint="@color/Green"
+                android:textStyle="bold"
+                />
+        </LinearLayout>
+
     </LinearLayout>
     <LinearLayout
         android:layout_width="wrap_content"
@@ -203,9 +235,9 @@
         <ImageView
 
             android:id="@+id/imgDeletePM"
-            android:layout_width="60sp"
-            android:layout_height="60sp"
-            android:layout_margin="8dp"
+            android:layout_width="40sp"
+            android:layout_height="40sp"
+            android:layout_margin="4dp"
             android:src="@drawable/ic_baseline_cancel_" />
 
     </LinearLayout>

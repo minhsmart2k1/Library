@@ -13,7 +13,7 @@ public class ConnectionHelper {
     @SuppressLint("NewApi")
 
     public Connection connectionclass(){
-        ip = "192.168.1.7";
+        ip = "113.178.118.106";
         database = "QuanLyThuVien_3";
         uname = "sa";
         pass = "01012001";
