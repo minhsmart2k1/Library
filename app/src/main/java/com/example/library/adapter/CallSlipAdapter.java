@@ -70,7 +70,7 @@ public class CallSlipAdapter extends ArrayAdapter<CallSlip> {
             tvTenTv=v.findViewById(R.id.tvTenTV1);
             tvTienThue=v.findViewById(R.id.tvTienThue);
             tvNgay=v.findViewById(R.id.tvNgayPM);
-            tvMaPM.setText(""+ callSlip.maPH);
+            //tvMaPM.setText(""+ callSlip.maPH);
             tvTenSach.setText(""+ book.tenSach);
             tvTenTv.setText(""+ member.hoTen);
             tvTienThue.setText(""+ callSlip.tienThue);
@@ -90,7 +90,7 @@ public class CallSlipAdapter extends ArrayAdapter<CallSlip> {
         imgdel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragment.xoa(String.valueOf(item.maPH));
+                //fragment.xoa(String.valueOf(item.maPH));
             }
         });
         return v;

@@ -5,10 +5,16 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
+import com.example.library.ConnectionHelper;
 import com.example.library.database.Sqldatabase;
 import com.example.library.model.Member;
+import com.example.library.model.User;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,10 +26,36 @@ public class MemberDAO {
 
     }
     public long insert (Member member){
-        ContentValues values=new ContentValues();
-        values.put("hoTen", member.hoTen);
-        values.put("namSinh", member.namSinh);
-        return db.insert("Member",null,values);
+//        ContentValues values=new ContentValues();
+//        values.put("hoTen", member.hoTen);
+//        values.put("namSinh", member.namSinh);
+//        return db.insert("Member",null,values);
+
+        Connection connect;
+        String ConnectionResult = "";
+        boolean check = false;
+
+        try {
+            ConnectionHelper connectionHelper = new ConnectionHelper();
+            connect = connectionHelper.connectionclass();
+            if(connect != null) {
+                String sqlInsert = "INSERT INTO NguoiMuon (MaTK, MSSV, NamSinh) VALUES\n" +
+                        "('" + member.maTK + "'," + member.MSSV + ",' " + member.namSinh + "')";
+                Statement st = connect.createStatement();
+                st.executeUpdate(sqlInsert);
+                check = true;
+            }
+            else
+            {
+                ConnectionResult = "Check Connection";
+            }
+        }
+        catch (Exception ex){
+            Log.e("Error", ex.getMessage());
+        }
+        if(check)
+            return 1;
+        return 0;
 
     }
     public int update(Member member){
@@ -48,14 +80,50 @@ public class MemberDAO {
     }
 
     private List<Member>getData(String sql, String...selectionArgs){
+//        List<Member>list =new ArrayList<>();
+//        Cursor cursor=db.rawQuery(sql,selectionArgs);
+//        while (cursor.moveToNext()){
+//            Member member =new Member();
+//            member.maTV=cursor.getString(cursor.getColumnIndexOrThrow("maTV"));
+//            member.hoTen=cursor.getString(cursor.getColumnIndexOrThrow("hoTen"));
+//            member.namSinh=cursor.getString(cursor.getColumnIndexOrThrow("namSinh"));
+//            list.add(member);
+//        }
+//        return list;
         List<Member>list =new ArrayList<>();
-        Cursor cursor=db.rawQuery(sql,selectionArgs);
-        while (cursor.moveToNext()){
-            Member member =new Member();
-            member.maTV=cursor.getString(cursor.getColumnIndexOrThrow("maTV"));
-            member.hoTen=cursor.getString(cursor.getColumnIndexOrThrow("hoTen"));
-            member.namSinh=cursor.getString(cursor.getColumnIndexOrThrow("namSinh"));
-            list.add(member);
+        Connection connect;
+        String ConnectionResult = "";
+        Cursor cursor = db.rawQuery(sql, selectionArgs);
+
+        try {
+            ConnectionHelper connectionHelper = new ConnectionHelper();
+            connect = connectionHelper.connectionclass();
+            if(connect != null){
+                String query = "SELECT NguoiMuon.MaNguoiMuon, NguoiMuon.MaTK, NguoiMuon.MSSV, NguoiMuon.NamSinh, TaiKhoan.HoTen\n" +
+                        "FROM NguoiMuon, TaiKhoan\n" +
+                        "WHERE NguoiMuon.MaTK = TaiKhoan.MaTK";
+                Statement st = connect.createStatement();
+                ResultSet rs = st.executeQuery(query);
+
+                while (rs.next())
+                {
+                    Member member = new Member();
+                    member.maTV = rs.getString(1);
+                    member.maTK = rs.getString(2);
+                    member.hoTen = rs.getString(5);
+                    member.namSinh = rs.getString(4);
+                    member.MSSV = Integer.parseInt(rs.getString(3));
+                    list.add(member);
+                }
+                Log.v("Size User", "Size: " + list.size());
+            }
+            else
+            {
+                ConnectionResult = "Check Connection";
+            }
+        }
+        catch (Exception ex){
+            Log.e("Error", ex.getMessage());
         }
         return list;
     }

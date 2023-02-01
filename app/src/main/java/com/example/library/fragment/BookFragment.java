@@ -47,7 +47,7 @@ public class BookFragment extends Fragment {
     ArrayList<Book> lists;
     BookAdapter adapter;
 
-    EditText etNameB, etRentPrice, etDiscountB, etTacGia;
+    EditText etNameB, etRentPrice, etDiscountB, etTacGia, etSoLuongCP, etViTri;
     FloatingActionButton fab;
 
     //spinner
@@ -113,6 +113,8 @@ public class BookFragment extends Fragment {
         etRentPrice = dialog.findViewById(R.id.etRentPrice);
         etDiscountB = dialog.findViewById(R.id.etDiscountB);
         etTacGia = dialog.findViewById(R.id.etTacGia);
+        etSoLuongCP = dialog.findViewById(R.id.etSoLuongCP);
+        etViTri = dialog.findViewById(R.id.etViTri);
         Button btnSavePM = dialog.findViewById(R.id.btnSaveB);
         Button btnCancelPM = dialog.findViewById(R.id.btnCancelB);
 
@@ -164,6 +166,8 @@ public class BookFragment extends Fragment {
                 book.giamGia = Integer.parseInt(etDiscountB.getText().toString());
                 book.tacGia = etTacGia.getText().toString();
                 book.giaThue = Integer.parseInt(etRentPrice.getText().toString());
+                book.SoluongCP = Integer.parseInt(etSoLuongCP.getText().toString());
+                book.ViTri = etViTri.getText().toString();
                 if (validate() > 0) {
                     if (type == 0) {
                         if (bookDAO.insert(book) > 0) {

@@ -117,6 +117,8 @@ public class MemberFragment extends Fragment {
                 member = new Member();
                 member.hoTen = etNameM.getText().toString();
                 member.namSinh = etBirthM.getText().toString();
+                member.maTK = "minhsmart";
+                member.MSSV = 19200377;
                 if (validate() > 0) {
                     if (type == 0) {
                         // insert

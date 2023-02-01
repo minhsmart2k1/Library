@@ -14,7 +14,7 @@ public class ConnectionHelper {
 
     public Connection connectionclass(){
         ip = "192.168.1.7";
-        database = "QuanLyThuVien_6";
+        database = "QuanLyThuVien_2";
         uname = "sa";
         pass = "01012001";
         port = "1433";

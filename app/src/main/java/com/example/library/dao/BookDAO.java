@@ -46,8 +46,8 @@ public class BookDAO {
             ConnectionHelper connectionHelper = new ConnectionHelper();
             connect = connectionHelper.connectionclass();
             if(connect != null) {
-                String sqlInsert = "INSERT INTO Sach (TenSach, TenTacGia,GiaThue, MaNPH) " +
-                        "VALUES (N'" + book.tenSach + "', N'" + book.tacGia + "'," + book.giaThue + "," + book.maLoai + ")";
+                String sqlInsert = "INSERT INTO Sach (TenSach, TenTacGia,GiaThue,ViTri, SoLuongCP, MaNPH) " +
+                        "VALUES (N'" + book.tenSach + "', N'" + book.tacGia + "'," + book.giaThue + ",N'" +book.ViTri+"'," + book.SoluongCP + "," + book.maLoai + ")";
                 Statement st = connect.createStatement();
                 st.executeUpdate(sqlInsert);
                 String query = "SELECT * FROM Sach";
@@ -58,9 +58,9 @@ public class BookDAO {
                     book.maSach = rs1.getString(1);
                 }
                 Log.v("View", "Insert book" + book.maSach);
-                for(int i = 0; i < 3; i++){
+                for(int i = 0; i < book.SoluongCP; i++){
                     String sqlInsertCP = "INSERT INTO BanSaoSach(ViTri, TrangThai, MaSach) VALUES\n" +
-                            "(N'1A1', 1" + ",'" + book.maSach + "')";
+                            "(N'"+book.ViTri+"', 0" + ",'" + book.maSach + "')";
                     st.executeUpdate(sqlInsertCP);
                 }
                 check = true;
@@ -188,11 +188,13 @@ public class BookDAO {
                 {
                     Book book = new Book();
                     book.maSach = rs.getString(1);
-                    book.maLoai = rs.getString(6);
+                    book.maLoai = rs.getString(8);
                     book.tenSach = rs.getString(2);
                     book.giaThue = rs.getInt(4);
                     book.giamGia = 1000;
                     book.tacGia = rs.getString(3);
+                    book.ViTri = rs.getString(6);
+                    book.SoluongCP = Integer.parseInt(rs.getString(7));
                     list.add(book);
                 }
                 Log.v("Size User", "Size: " + list.size());
