@@ -6,6 +6,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.library.ConnectionHelper;
 import com.example.library.database.Sqldatabase;
@@ -37,28 +38,39 @@ public class CallSlipDAO {
         Connection connect;
         String ConnectionResult = "";
         boolean check = false;
+        String maSachCP = null;
 
         try {
             ConnectionHelper connectionHelper = new ConnectionHelper();
             connect = connectionHelper.connectionclass();
             if(connect != null) {
-                String sqlInsert = "INSERT INTO ThongTinMuonTraSach (MaSachCP, TrangThai, NgayMuon, NgayTra, TienCoc, MaNguoiMuon) VALUES\n" +
-                        "('CP016', 1, '29/01/2023', '9/02/2023', 18000, 'NM001')";
+
+                String sqlMaCP = "SELECT BanSaoSach.MaSachCP, BanSaoSach.MaSach, Sach.TenSach, BanSaoSach.TrangThai\n" +
+                        "FROM BanSaoSach, Sach\n" +
+                        "WHERE BanSaoSach.MaSach = Sach.MaSach\n" +
+                        "\tand BanSaoSach.MaSach = '"+ callSlip.maSach +"'\n" +
+                        "\tand BanSaoSach.TrangThai = 0";
                 Statement st = connect.createStatement();
-                st.executeUpdate(sqlInsert);
-                String query = "SELECT * FROM Sach";
-                Statement st1 = connect.createStatement();
-                ResultSet rs1 = st1.executeQuery(query);
-                while (rs1.next())
-                {
-                    //book.maSach = rs1.getString(1);
-                }
-//                Log.v("View", "Insert book" + book.maSach);
-//                for(int i = 0; i < book.SoluongCP; i++){
-//                    String sqlInsertCP = "INSERT INTO BanSaoSach(ViTri, TrangThai, MaSach) VALUES\n" +
-//                            "(N'"+book.ViTri+"', 0" + ",'" + book.maSach + "')";
-//                    st.executeUpdate(sqlInsertCP);
+                ResultSet rs = st.executeQuery(sqlMaCP);
+//                if(!rs.first())
+//                {
+//                    Log.v("View", "Không đủ sách cho thuê!");
+//                    return 0;
 //                }
+                while (rs.next())
+                {
+                    maSachCP = rs.getString(1);
+                }
+
+                String sqlInsert = "INSERT INTO ThongTinMuonTraSach (MaSachCP, TrangThai, NgayMuon, NgayTra, TienCoc, MaNguoiMuon) VALUES\n" +
+                        "('"+maSachCP+"', "+callSlip.traSach+", '"+callSlip.ngay+"', '9/02/2023', "+callSlip.tienThue+", '"+callSlip.maTV+"')";
+
+                st.executeUpdate(sqlInsert);
+                String sqlUpdateSachCP = "UPDATE BanSaoSach\n" +
+                        "SET TrangThai = 1\n" +
+                        "WHERE MaSachCP = '"+maSachCP+"'";
+                st.executeUpdate(sqlUpdateSachCP);
+//                Log.v("View", "Insert book" + book.maSach);
                 check = true;
             }
             else
@@ -85,15 +97,61 @@ public class CallSlipDAO {
         Connection connect;
         String ConnectionResult = "";
         boolean check = false;
+        String maSachCP = null, maSach = null;
         try {
             ConnectionHelper connectionHelper = new ConnectionHelper();
             connect = connectionHelper.connectionclass();
             if(connect != null) {
-//                String sqlInsert = "UPDATE Sach\n" +
-//                        "SET TenSach = N'" + book.tenSach + "', TenTacGia = N'" + book.tacGia + "', GiaThue = " + book.giaThue + ", MaNPH = " + Integer.parseInt(book.maLoai) + "\n" +
-//                        "WHERE MaSach = '" + book.maSach + "';";
-//                Statement st = connect.createStatement();
-//                st.executeUpdate(sqlInsert);
+                String sqlCheck = "SELECT ThongTinMuonTraSach.MaTTMuonTra, ThongTinMuonTraSach.MaSachCP, Sach.MaSach\n" +
+                        "FROM BanSaoSach, Sach, ThongTinMuonTraSach\n" +
+                        "WHERE BanSaoSach.MaSach = Sach.MaSach\n" +
+                        "\tand ThongTinMuonTraSach.MaSachCP = BanSaoSach.MaSachCP\n" +
+                        "\tand ThongTinMuonTraSach.MaTTMuonTra = '"+callSlip.maPH+"'";
+
+                Statement st = connect.createStatement();
+                ResultSet rs = st.executeQuery(sqlCheck);
+                Log.v("Check update call slip", "Ma: " + callSlip.maPH);
+                while (rs.next())
+                {
+                    maSachCP = rs.getString(2);
+                    maSach = rs.getString(3);
+                }
+                if(!maSach.equals(callSlip.maSach)){
+                    String sqlUpdateSachCP = "UPDATE BanSaoSach\n" +
+                            "SET TrangThai = 0\n" +
+                            "WHERE MaSachCP = '"+maSachCP+"'";
+                    st.executeUpdate(sqlUpdateSachCP);
+                    String sqlMaCP = "SELECT BanSaoSach.MaSachCP, BanSaoSach.MaSach, Sach.TenSach, BanSaoSach.TrangThai\n" +
+                            "FROM BanSaoSach, Sach\n" +
+                            "WHERE BanSaoSach.MaSach = Sach.MaSach\n" +
+                            "\tand BanSaoSach.MaSach = '"+ callSlip.maSach +"'\n" +
+                            "\tand BanSaoSach.TrangThai = 0";
+                    Statement st1 = connect.createStatement();
+                    ResultSet rs1 = st1.executeQuery(sqlMaCP);
+                    while (rs1.next())
+                    {
+                        maSachCP = rs1.getString(1);
+                    }
+                    sqlUpdateSachCP = "UPDATE BanSaoSach\n" +
+                            "SET TrangThai = 1\n" +
+                            "WHERE MaSachCP = '"+maSachCP+"'";
+                    st.executeUpdate(sqlUpdateSachCP);
+                }
+                String sqlUpdate = "UPDATE ThongTinMuonTraSach\n" +
+                        "SET MaSachCP = '" +maSachCP+ "', TrangThai = "+callSlip.traSach+", NgayMuon = '"+callSlip.ngay+"', TienCoc = "+callSlip.tienThue+", MaNguoiMuon = '"+callSlip.maTV+"'\n" +
+                        "WHERE MaTTMuonTra = '"+callSlip.maPH+"'";
+                st.executeUpdate(sqlUpdate);
+                if(callSlip.traSach == 1){
+                    String sqlUpdateSachCP = "UPDATE BanSaoSach\n" +
+                            "SET TrangThai = 0\n" +
+                            "WHERE MaSachCP = '"+maSachCP+"'";
+                    st.executeUpdate(sqlUpdateSachCP);
+                }else if(callSlip.traSach == 0){
+                    String sqlUpdateSachCP = "UPDATE BanSaoSach\n" +
+                            "SET TrangThai = 1\n" +
+                            "WHERE MaSachCP = '"+maSachCP+"'";
+                    st.executeUpdate(sqlUpdateSachCP);
+                }
                 check = true;
             }
             else
@@ -110,7 +168,29 @@ public class CallSlipDAO {
     }
     public int delete(String id)
     {
-        return db.delete("CallSlip", "maPH = ?", new String[]{id});
+        //return db.delete("CallSlip", "maPH = ?", new String[]{id});
+        Connection connect;
+        String ConnectionResult = "";
+
+        try {
+            ConnectionHelper connectionHelper = new ConnectionHelper();
+            connect = connectionHelper.connectionclass();
+            if(connect != null) {
+                String sqlDelete = "DELETE FROM ThongTinMuonTraSach\n" +
+                        "WHERE MaTTMuonTra = '" + id + "';";
+                Statement st = connect.createStatement();
+                st.executeUpdate(sqlDelete);
+                return 1;
+            }
+            else
+            {
+                ConnectionResult = "Check Connection";
+            }
+        }
+        catch (Exception ex){
+            Log.e("Error", ex.getMessage());
+        }
+        return 0;
     }
     public List<CallSlip> getAll(){
         String sql = "select *from CallSlip";
@@ -153,7 +233,7 @@ public class CallSlipDAO {
                 while (rs.next())
                 {
                     CallSlip callSlip = new CallSlip();
-                    callSlip.maTT = rs.getString(1);
+                    callSlip.maPH = rs.getString(1);
                     callSlip.maSach = rs.getString(2);
                     callSlip.traSach = Integer.parseInt(rs.getString(3));
                     callSlip.ngay = rs.getString(4);
@@ -162,7 +242,7 @@ public class CallSlipDAO {
                     callSlip.maTV = rs.getString(7);
                     list.add(callSlip);
                 }
-                Log.v("Size User", "Size: " + list.size());
+                Log.v("Size Call Slip", "Size: " + list.size());
             }
             else
             {

@@ -1,8 +1,10 @@
 package com.example.library.adapter;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.telecom.Call;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.library.ConnectionHelper;
 import com.example.library.R;
 import com.example.library.dao.BookDAO;
 import com.example.library.dao.MemberDAO;
@@ -21,8 +24,12 @@ import com.example.library.model.Book;
 import com.example.library.model.CallSlip;
 import com.example.library.model.Member;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 public class CallSlipAdapter extends ArrayAdapter<CallSlip> {
     private Context context;
@@ -32,7 +39,7 @@ public class CallSlipAdapter extends ArrayAdapter<CallSlip> {
     ImageView imgdel;
     BookDAO bookDAO;
     MemberDAO memberDAO;
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
     public CallSlipAdapter(@NonNull Context context, CallSlipFragment fragment, ArrayList<CallSlip> lists) {
         super(context, 0,lists);
@@ -60,6 +67,40 @@ public class CallSlipAdapter extends ArrayAdapter<CallSlip> {
         }
         final CallSlip item=lists.get(position);
         if (item != null) {
+            String tenSach = null, hoTen = null;
+            Connection connect;
+            String ConnectionResult = "";
+
+            try {
+                ConnectionHelper connectionHelper = new ConnectionHelper();
+                connect = connectionHelper.connectionclass();
+                if(connect != null){
+                    String query = "SELECT BanSaoSach.MaSachCP, BanSaoSach.MaSach, Sach.TenSach, NguoiMuon.MaNguoiMuon, TaiKhoan.HoTen\n" +
+                            "FROM BanSaoSach, Sach, NguoiMuon, TaiKhoan, ThongTinMuonTraSach\n" +
+                            "WHERE BanSaoSach.MaSach = Sach.MaSach\n" +
+                            "\tand BanSaoSach.MaSachCP = ThongTinMuonTraSach.MaSachCP\n" +
+                            "\tand ThongTinMuonTraSach.MaNguoiMuon = NguoiMuon.MaNguoiMuon\n" +
+                            "\tand NguoiMuon.MaTK = TaiKhoan.MaTK\n" +
+                            "\tand BanSaoSach.MaSachCP = '" + item.maSach + "'\n" +
+                            "\tand ThongTinMuonTraSach.MaTTMuonTra = '" + item.maPH + "'";
+                    Statement st = connect.createStatement();
+                    ResultSet rs = st.executeQuery(query);
+
+                    while (rs.next())
+                    {
+                        tenSach = rs.getString(3);
+                        hoTen = rs.getString(5);
+                    }
+                }
+                else
+                {
+                    ConnectionResult = "Check Connection";
+                }
+            }
+            catch (Exception ex){
+                Log.e("Error", ex.getMessage());
+            }
+
             CallSlip callSlip =lists.get(position);
             tvMaPM=v.findViewById(R.id.tvMaPM);
             bookDAO =new BookDAO(context);
@@ -70,9 +111,9 @@ public class CallSlipAdapter extends ArrayAdapter<CallSlip> {
             tvTenTv=v.findViewById(R.id.tvTenTV1);
             tvTienThue=v.findViewById(R.id.tvTienThue);
             tvNgay=v.findViewById(R.id.tvNgayPM);
-            //tvMaPM.setText(""+ callSlip.maPH);
-            tvTenSach.setText(""+ book.tenSach);
-            tvTenTv.setText(""+ member.hoTen);
+            tvMaPM.setText(""+ callSlip.maPH);
+            tvTenSach.setText(""+ tenSach);
+            tvTenTv.setText(""+ hoTen);
             tvTienThue.setText(""+ callSlip.tienThue);
             tvNgay.setText(""+ callSlip.ngay);
             tvTraSach=v.findViewById(R.id.tvTraSach);
@@ -90,7 +131,7 @@ public class CallSlipAdapter extends ArrayAdapter<CallSlip> {
         imgdel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //fragment.xoa(String.valueOf(item.maPH));
+                fragment.xoa(String.valueOf(item.maPH));
             }
         });
         return v;

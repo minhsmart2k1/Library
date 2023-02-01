@@ -171,9 +171,9 @@ public class CallSlipFragment extends Fragment {
 
             }
         });
-        //edMaPM.setEnabled(false);
+        edMaPM.setEnabled(false);
         if (type != 0) {
-            //edMaPM.setText(String.valueOf(callSlip.maPH));
+            edMaPM.setText(String.valueOf(callSlip.maPH));
             for (int i = 0; i < listMember.size(); i++)
                 if (callSlip.maTV.equals((listMember.get(i).maTV))) {
                     positionMember = i;
@@ -225,7 +225,7 @@ public class CallSlipFragment extends Fragment {
                             Toast.makeText(context, "Failed", Toast.LENGTH_LONG).show();
                         }
                     } else {
-                        //callSlip.maPH = Integer.parseInt(edMaPM.getText().toString());
+                        callSlip.maPH = edMaPM.getText().toString();
                         if (callSlipDAO.update(callSlip) > 0) {
                             Toast.makeText(context, "Fixed", Toast.LENGTH_LONG).show();
                         } else {
