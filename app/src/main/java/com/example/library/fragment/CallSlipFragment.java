@@ -54,6 +54,7 @@ public class CallSlipFragment extends Fragment {
 
     FloatingActionButton fab;
     TextView etDate;
+    TextView tvNgayTra;
     CheckBox chkReturned;
     Button btnSaveCs, btnCancelCs;
     String maThanhVien;
@@ -107,6 +108,7 @@ public class CallSlipFragment extends Fragment {
         dialog.getWindow().setLayout((int) (getScreenWidth(getActivity()) * .9), ViewGroup.LayoutParams.WRAP_CONTENT);
         //ngay
         etDate = dialog.findViewById(R.id.etDate);
+        tvNgayTra = dialog.findViewById(R.id.tvNgayTra);
         btnDate = dialog.findViewById(R.id.btnDate);
         chkReturned = dialog.findViewById(R.id.chkReturned);
         btnSaveCs = dialog.findViewById(R.id.btnSaveCs);
@@ -120,7 +122,9 @@ public class CallSlipFragment extends Fragment {
                 mMonth = month;
                 mDay = dayOfMonth;
                 GregorianCalendar c = new GregorianCalendar(mYear, mMonth, mDay);
+                GregorianCalendar d = new GregorianCalendar(mYear, mMonth, mDay+7);
                 etDate.setText(sdf.format(c.getTime()));
+                tvNgayTra.setText(sdf.format(d.getTime()));
             }
         };
         btnDate.setOnClickListener(new View.OnClickListener() {
@@ -211,6 +215,7 @@ public class CallSlipFragment extends Fragment {
                 callSlip.tienThue = Integer.parseInt(etRentExpense.getText().toString());
                 //book.giaThue = Integer.parseInt(etRentPrice.getText().toString());
                 callSlip.ngay = etDate.getText().toString();
+                callSlip.ngayTra =tvNgayTra.getText().toString();
 
                 if (chkReturned.isChecked()) {
                     callSlip.traSach = 1;

@@ -63,7 +63,7 @@ public class CallSlipDAO {
                 }
 
                 String sqlInsert = "INSERT INTO ThongTinMuonTraSach (MaSachCP, TrangThai, NgayMuon, NgayTra, TienCoc, MaNguoiMuon) VALUES\n" +
-                        "('"+maSachCP+"', "+callSlip.traSach+", '"+callSlip.ngay+"', '9/02/2023', "+callSlip.tienThue+", '"+callSlip.maTV+"')";
+                        "('"+maSachCP+"', "+callSlip.traSach+", '"+callSlip.ngay+"', '"+callSlip.ngayTra+"', "+callSlip.tienThue+", '"+callSlip.maTV+"')";
 
                 st.executeUpdate(sqlInsert);
                 String sqlUpdateSachCP = "UPDATE BanSaoSach\n" +
@@ -138,7 +138,7 @@ public class CallSlipDAO {
                     st.executeUpdate(sqlUpdateSachCP);
                 }
                 String sqlUpdate = "UPDATE ThongTinMuonTraSach\n" +
-                        "SET MaSachCP = '" +maSachCP+ "', TrangThai = "+callSlip.traSach+", NgayMuon = '"+callSlip.ngay+"', TienCoc = "+callSlip.tienThue+", MaNguoiMuon = '"+callSlip.maTV+"'\n" +
+                        "SET MaSachCP = '" +maSachCP+ "', TrangThai = "+callSlip.traSach+", NgayMuon = '"+callSlip.ngay +", NgayTra = '"+callSlip.ngayTra+"', TienCoc = "+callSlip.tienThue+", MaNguoiMuon = '"+callSlip.maTV+"'\n" +
                         "WHERE MaTTMuonTra = '"+callSlip.maPH+"'";
                 st.executeUpdate(sqlUpdate);
                 if(callSlip.traSach == 1){
