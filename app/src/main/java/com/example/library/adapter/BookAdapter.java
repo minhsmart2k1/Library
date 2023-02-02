@@ -100,6 +100,7 @@ public class BookAdapter extends ArrayAdapter<Book> implements Filterable {
             tvDiscountB = view.findViewById(R.id.tvDiscountB);
             tvTacGia = view.findViewById(R.id.tvTacGia);
             tvSoLuong  = view.findViewById(R.id.tvSoLuong);
+            tvViTri = view.findViewById(R.id.tvViTri);
             btnDel=view.findViewById(R.id.imgDeleteS);
 
 
@@ -109,7 +110,8 @@ public class BookAdapter extends ArrayAdapter<Book> implements Filterable {
             tvRentPrice.setText(""+book.giaThue);
             tvDiscountB.setText(""+ book.giamGia);
             tvTacGia.setText(""+ book.tacGia);
-
+            tvSoLuong.setText(""+ book.SoluongCP);
+            tvViTri.setText(""+ book.ViTri);
 
 
         }

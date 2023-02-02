@@ -95,11 +95,34 @@ public class BookDAO {
             ConnectionHelper connectionHelper = new ConnectionHelper();
             connect = connectionHelper.connectionclass();
             if(connect != null) {
-                String sqlInsert = "UPDATE Sach\n" +
-                        "SET TenSach = N'" + book.tenSach + "', TenTacGia = N'" + book.tacGia + "', GiaThue = " + book.giaThue + ", MaNPH = " + Integer.parseInt(book.maLoai) + "\n" +
-                        "WHERE MaSach = '" + book.maSach + "';";
-                Statement st = connect.createStatement();
-                st.executeUpdate(sqlInsert);
+                String sqlCheck = "SELECT * FROM Sach WHERE MaSach = '" + book.maSach + "'";
+                int sl = 0;
+                Statement st1 = connect.createStatement();
+                ResultSet rs1 = st1.executeQuery(sqlCheck);
+                while (rs1.next()){
+                    sl = rs1.getInt(7);
+                }
+                if(sl == book.SoluongCP) {
+                    String sqlInsert = "UPDATE Sach\n" +
+                            "SET TenSach = N'" + book.tenSach + "', TenTacGia = N'" + book.tacGia + ",ViTri = N'" +book.ViTri+"', SoLuongCP" + book.SoluongCP + "', GiaThue = " + book.giaThue + ", MaNPH = " + Integer.parseInt(book.maLoai) + "\n" +
+                            "WHERE MaSach = '" + book.maSach + "'";
+                    Statement st = connect.createStatement();
+                    st.executeUpdate(sqlInsert);
+                }
+                else{
+                    if(sl < book.SoluongCP){
+                        String sqlInsert = "UPDATE Sach\n" +
+                                "SET TenSach = N'" + book.tenSach + "', TenTacGia = N'" + book.tacGia + "',ViTri = N'" +book.ViTri+"', SoLuongCP = " + book.SoluongCP + ", GiaThue = " + book.giaThue + ", MaNPH = " + Integer.parseInt(book.maLoai) + "\n" +
+                                "WHERE MaSach = '" + book.maSach + "'";
+                        Statement st = connect.createStatement();
+                        st.executeUpdate(sqlInsert);
+                        for(int i = 0; i < (book.SoluongCP - sl); i++) {
+                            String sqlInsertCP = "INSERT INTO BanSaoSach(ViTri, TrangThai, MaSach) VALUES\n" +
+                                    "(N'" + book.ViTri + "', 0" + ",'" + book.maSach + "')";
+                            st1.executeUpdate(sqlInsertCP);
+                        }
+                    }
+                }
                 check = true;
             }
             else

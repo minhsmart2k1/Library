@@ -71,7 +71,7 @@ public class CallSlipFragment extends Fragment {
 
     //btn ngay
     ImageView btnDate;
-    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
     int mYear, mMonth, mDay;
     @Override
     public void onCreate(Bundle savedInstanceState) {

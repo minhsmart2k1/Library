@@ -39,8 +39,8 @@ public class MemberDAO {
             ConnectionHelper connectionHelper = new ConnectionHelper();
             connect = connectionHelper.connectionclass();
             if(connect != null) {
-                String sqlInsert = "INSERT INTO NguoiMuon (MaTK, MSSV, NamSinh) VALUES\n" +
-                        "('" + member.maTK + "'," + member.MSSV + ",' " + member.namSinh + "')";
+                String sqlInsert = "INSERT INTO NguoiMuon (MaTK, HoTen, MSSV, NamSinh) VALUES\n" +
+                        "('" + member.maTK + "',N'" + member.hoTen + "'," + member.MSSV + ",' " + member.namSinh + "')";
                 Statement st = connect.createStatement();
                 st.executeUpdate(sqlInsert);
                 check = true;
@@ -99,9 +99,7 @@ public class MemberDAO {
             ConnectionHelper connectionHelper = new ConnectionHelper();
             connect = connectionHelper.connectionclass();
             if(connect != null){
-                String query = "SELECT NguoiMuon.MaNguoiMuon, NguoiMuon.MaTK, NguoiMuon.MSSV, NguoiMuon.NamSinh, TaiKhoan.HoTen\n" +
-                        "FROM NguoiMuon, TaiKhoan\n" +
-                        "WHERE NguoiMuon.MaTK = TaiKhoan.MaTK";
+                String query = "SELECT * FROM NguoiMuon";
                 Statement st = connect.createStatement();
                 ResultSet rs = st.executeQuery(query);
 
@@ -110,9 +108,9 @@ public class MemberDAO {
                     Member member = new Member();
                     member.maTV = rs.getString(1);
                     member.maTK = rs.getString(2);
-                    member.hoTen = rs.getString(5);
-                    member.namSinh = rs.getString(4);
-                    member.MSSV = Integer.parseInt(rs.getString(3));
+                    member.hoTen = rs.getString(3);
+                    member.namSinh = rs.getString(5);
+                    member.MSSV = Integer.parseInt(rs.getString(4));
                     list.add(member);
                 }
                 Log.v("Size User", "Size: " + list.size());

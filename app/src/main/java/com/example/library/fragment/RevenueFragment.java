@@ -25,7 +25,7 @@ public class RevenueFragment extends Fragment {
     Button btnRevenue;
     EditText edFromDate, edToDate;
     TextView tvRevenue;
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
     int mYear, mMonth, mDay;
     DatePickerDialog.OnDateSetListener mDateFromDate = new DatePickerDialog.OnDateSetListener() {
         @Override

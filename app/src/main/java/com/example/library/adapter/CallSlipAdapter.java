@@ -39,7 +39,7 @@ public class CallSlipAdapter extends ArrayAdapter<CallSlip> {
     ImageView imgdel;
     BookDAO bookDAO;
     MemberDAO memberDAO;
-    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
 
     public CallSlipAdapter(@NonNull Context context, CallSlipFragment fragment, ArrayList<CallSlip> lists) {
         super(context, 0,lists);
@@ -75,12 +75,11 @@ public class CallSlipAdapter extends ArrayAdapter<CallSlip> {
                 ConnectionHelper connectionHelper = new ConnectionHelper();
                 connect = connectionHelper.connectionclass();
                 if(connect != null){
-                    String query = "SELECT BanSaoSach.MaSachCP, BanSaoSach.MaSach, Sach.TenSach, NguoiMuon.MaNguoiMuon, TaiKhoan.HoTen\n" +
-                            "FROM BanSaoSach, Sach, NguoiMuon, TaiKhoan, ThongTinMuonTraSach\n" +
+                    String query = "SELECT BanSaoSach.MaSachCP, BanSaoSach.MaSach, Sach.TenSach, NguoiMuon.MaNguoiMuon, NguoiMuon.HoTen\n" +
+                            "FROM BanSaoSach, Sach, NguoiMuon, ThongTinMuonTraSach\n" +
                             "WHERE BanSaoSach.MaSach = Sach.MaSach\n" +
                             "\tand BanSaoSach.MaSachCP = ThongTinMuonTraSach.MaSachCP\n" +
                             "\tand ThongTinMuonTraSach.MaNguoiMuon = NguoiMuon.MaNguoiMuon\n" +
-                            "\tand NguoiMuon.MaTK = TaiKhoan.MaTK\n" +
                             "\tand BanSaoSach.MaSachCP = '" + item.maSach + "'\n" +
                             "\tand ThongTinMuonTraSach.MaTTMuonTra = '" + item.maPH + "'";
                     Statement st = connect.createStatement();
